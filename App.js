@@ -31,9 +31,9 @@ const MyTabs = () => {
         tabBarInactiveTintColor: 'white',
       }}
     >
-      <tab.Screen name="About Us" component={AboutTab}/>
-      <tab.Screen name="Map" component={MapTab}/>
       <tab.Screen name="Upload" component={UploadTab}/>
+      <tab.Screen name="Map" component={MapTab}/>
+      <tab.Screen name="About Us" component={AboutTab}/>
 
 
     </tab.Navigator>
