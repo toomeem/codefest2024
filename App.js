@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image, Text } from 'react-native';
 import AboutTab from './src/screens/AboutTab';
 import UploadTab from './src/screens/UploadTab';
 import MapTab from './src/screens/MapTab';
@@ -27,13 +27,79 @@ const MyTabs = () => {
           borderCurve: 'circular',
           borderStyle: 'solid',
         },
-        tabBarActiveTintColor: 'black',
+        tabBarActiveTintColor: 'white',
         tabBarInactiveTintColor: 'white',
       }}
     >
-      <tab.Screen name="Upload" component={UploadTab}/>
-      <tab.Screen name="Map" component={MapTab}/>
-      <tab.Screen name="About Us" component={AboutTab}/>
+      <tab.Screen 
+        name="Upload" 
+        component={UploadTab}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
+              <Image
+                source={require('./assets/Upload.png')}
+                resizeMode="contain"
+                style = {{
+                  width: 30,
+                  height: 20,
+                  borderRadius: 30,
+                  borderColor: 'white',
+                }}
+              />
+              {/* <Text style={{fontSize: 12}}>
+                Upload
+              </Text> */}
+            </View>
+          )
+        }}
+      />
+      <tab.Screen 
+        name="Map" 
+        component={MapTab}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
+              <Image
+                source={require('./assets/Map.png')}
+                resizeMode="contain"
+                style = {{
+                  width: 30,
+                  height: 20,
+                  borderRadius: 30,
+                  borderColor: 'white',
+                }}
+              />
+              {/* <Text style={{fontSize: 12}}>
+                Upload
+              </Text> */}
+            </View>
+          )
+        }}
+      />
+      <tab.Screen 
+        name="About Us" 
+        component={AboutTab}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <View style={{alignItems: 'center', justifyContent: 'center', top: 10}}>
+              <Image
+                source={require('./assets/About.png')}
+                resizeMode="contain"
+                style = {{
+                  width: 30,
+                  height: 20,
+                  borderRadius: 30,
+                  borderColor: 'white',
+                }}
+              />
+              {/* <Text style={{fontSize: 12}}>
+                Upload
+              </Text> */}
+            </View>
+          )
+        }}
+      />
 
 
     </tab.Navigator>
