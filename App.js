@@ -34,8 +34,8 @@ const MyTabs = () => {
       <tab.Screen name="About Us" component={AboutTab}/>
       <tab.Screen name="Map" component={MapTab}/>
       <tab.Screen name="Upload" component={UploadTab}/>
-      
-      
+
+
     </tab.Navigator>
   )
 }
