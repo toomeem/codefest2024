@@ -56,8 +56,8 @@ const MyTabs = () => {
         }}
       />
 
-      <tab.Screen 
-        name="Map" 
+      <tab.Screen
+        name="Map"
         component={MapTab}
         options={{
           tabBarIcon: ({focused}) => (
@@ -79,8 +79,8 @@ const MyTabs = () => {
           )
         }}
       />
-      <tab.Screen 
-        name="About Us" 
+      <tab.Screen
+        name="About Us"
         component={AboutTab}
         options={{
           tabBarIcon: ({focused}) => (
