@@ -5,7 +5,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, StyleSheet } from 'react-native';
 import AboutTab from './src/screens/AboutTab';
 import UploadTab from './src/screens/UploadTab';
-import MapTab from './src/screens/MapTab';
+// import MapTab from './src/screens/MapTab';
+import NewMapTab from './src/screens/NewMapTab';
 
 const stack = createNativeStackNavigator();
 const tab = createBottomTabNavigator();
@@ -32,7 +33,8 @@ const MyTabs = () => {
       }}
     >
       <tab.Screen name="About Us" component={AboutTab}/>
-      <tab.Screen name="Map" component={MapTab}/>
+      {/* <tab.Screen name="Map" component={MapTab}/> */}
+      <tab.Screen name="Map" component={NewMapTab}/>
       <tab.Screen name="Upload" component={UploadTab}/>
 
 
