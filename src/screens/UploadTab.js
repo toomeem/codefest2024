@@ -131,7 +131,17 @@ const UploadTab = () => {
             );
           })}
         </View>
-        <View style={{height: 80}} />
+		<View style={styles.delete.view}>
+          <TouchableOpacity
+            style={styles.delete.pressable}
+            onPress={() => {
+              // setModalVisible(!modalVisible);
+            }}
+          >
+            <Text style={styles.delete.text}>Delete Images</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{height: 150}} />
         <View style={styles.upload.view}>
           <TouchableOpacity
             style={styles.upload.pressable}
@@ -408,6 +418,28 @@ const styles = StyleSheet.create({
       top: 10,
       left: 5,
       backgroundColor: 'lightblue',
+    },
+    pressable: {
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    text: {
+      fontSize: 20,
+      color: 'white',
+    },
+  },
+  delete: {
+    view: {
+      justifyContent: 'center',
+      borderWidth: 1,
+      borderRadius: 10,
+      width: 200,
+      height: 50,
+      marginBottom: 10,
+	  alignItems: 'center',
+      left: 5,
+      backgroundColor: 'lightblue',
+	  alignSelf: 'center',
     },
     pressable: {
       justifyContent: 'center',

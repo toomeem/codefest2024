@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   storyList: {
-    marginTop: 20,
+    marginTop: -10,
     marginBottom: 10,
     paddingHorizontal: 30,
   },
