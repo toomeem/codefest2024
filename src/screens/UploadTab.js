@@ -384,7 +384,7 @@ const styles = StyleSheet.create({
     width: '95%',
     minHeight: 200,
     margin: 7,
-    backgroundColor: 'transparent',
+    backgroundColor: 'lightblue',
 	borderStyle: 'solid',
 	borderColor: 'white',
 	borderWidth: 3,
