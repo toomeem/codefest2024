@@ -31,6 +31,7 @@ const MyTabs = () => {
         tabBarInactiveTintColor: 'white',
       }}
     >
+
       <tab.Screen 
         name="Upload" 
         component={UploadTab}
@@ -101,7 +102,6 @@ const MyTabs = () => {
           )
         }}
       />
-
 
     </tab.Navigator>
   )
