@@ -329,10 +329,13 @@ const styles = StyleSheet.create({
     justifyContent: 'left',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: '90%',
+    width: '95%',
     minHeight: 200,
     margin: 7,
-    backgroundColor: 'lightgray',
+    backgroundColor: 'transparent',
+	borderStyle: 'dashed',
+	borderColor: 'white',
+	borderWidth: 3,
   },
   photoView: {
     selected:{
