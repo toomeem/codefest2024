@@ -10,14 +10,14 @@ const MapTab = () => {
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
 
-  const markers =  [{
+  const markers = [{
       id: 1,
       coordinate: {
         latitude: 39.997090,
         longitude: -75.204790,
       },
       title: "Bennett Compost",
-      address: "3850 W Ford Rd, Philadelphia, PA 19131"
+      address: "3850 W Ford Rd, Philadelphia, PA 19131",
     },
     {
       id: 2,
@@ -26,7 +26,7 @@ const MapTab = () => {
         longitude: -75.077187,
       },
       title: "Sanitation Convenience Center",
-      address: "3901 N Delaware Ave, Philadelphia, PA 19137"
+      address: "3901 N Delaware Ave, Philadelphia, PA 19137",
     },
     {
       id: 3,
@@ -34,8 +34,8 @@ const MapTab = () => {
         latitude: 40.038040,
         longitude: -75.113420,
       },
-      title: "5650 Rising Sun Ave, Philadelphia, PA 19120",
-      address: "5650 Rising Sun Ave, Philadelphia, PA 19120t"
+      title: "Bennet Compost",
+      address: "5650 Rising Sun Ave, Philadelphia, PA 19120",
     },
     {
       id: 4,
@@ -44,7 +44,7 @@ const MapTab = () => {
         longitude: -75.213520,
       },
       title: "Fairmount Park Organic Recycling Center",
-      address: "3201 S 61st St, Philadelphia, PA 19153"
+      address: "3201 S 61st St, Philadelphia, PA 19153",
     },
     {
       id: 5,
@@ -52,9 +52,10 @@ const MapTab = () => {
         latitude: 39.985510,
         longitude: -75.178340,
       },
-      title: "Sanitation Convenience Center (Strawberry Mansion)",
-      address: "2564 W Glenwood Ave, Philadelphia, PA 19121"
-    }]
+      title: "Sanitation Convenience Center",
+      address: "2564 W Glenwood Ave, Philadelphia, PA 19121",
+    },
+  ]
 
   const handleMarkerPress = (marker) => {
     setSelectedMarker(marker);
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
       top: '1%',
       right: '2%',
       backgroundColor: 'black',
-      borderRadius:'5px',
+      borderRadius:5,
       color: 'white',
       zIndex: 10000,
       opacity: 0.7
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
     buttonText: {
       padding: 10,
       color:'white',
-      fontSize:'15px',
+      fontSize: 15,
   },
 });
 
