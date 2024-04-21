@@ -7,13 +7,29 @@ import { Camera, CameraType } from 'expo-camera';
 
 const image = { uri: "https://media.rainpos.com/Robert_Kaufman_Fabrics/K001-1842.jpg" };
 
-const imageList = [
+const notCheckedList = [
   {'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
   {'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
   {'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
   {'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
   {'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
 ];
+
+const bioDegradibleList = [
+  {'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
+  {'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
+  {'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
+  {'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
+  {'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
+]
+
+const nonBioDegradibleList = [
+	{'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
+	{'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
+	{'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
+	{'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
+	{'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
+  ]
 
 selectedImages = [];
 
@@ -57,7 +73,7 @@ const UploadTab = () => {
       quality: 1,
     });
     if (!result.canceled) {
-      imageList.push({uri: String(result.assets[0].uri)});
+      notCheckedList.push({uri: String(result.assets[0].uri)});
       setModalVisible(false);
     }
   };
@@ -68,10 +84,36 @@ const UploadTab = () => {
       <View style={styles.container}>
         <View style={styles.topSpace} />
         <View style={styles.titleView}>
-          <Text style={styles.titleText}>Select an image</Text>
+          <Text style={styles.titleText}>Unsorted Material</Text>
         </View>
         <View style={styles.photoContainer}>
-          {imageList.map((image, index) => {
+          {notCheckedList.map((image, index) => {
+            return (
+              <PhotoView
+                key={index}
+                src={image}
+              />
+            );
+          })}
+        </View>
+		<View style={styles.titleView}>
+          <Text style={styles.titleText}>Biodegradible Material</Text>
+        </View>
+        <View style={styles.photoContainer}>
+          {bioDegradibleList.map((image, index) => {
+            return (
+              <PhotoView
+                key={index}
+                src={image}
+              />
+            );
+          })}
+        </View>
+		<View style={styles.titleView}>
+          <Text style={styles.titleText}>Non-Biodegradible Materia</Text>
+        </View>
+        <View style={styles.photoContainer}>
+          {nonBioDegradibleList.map((image, index) => {
             return (
               <PhotoView
                 key={index}
@@ -94,7 +136,7 @@ const UploadTab = () => {
           <Pressable
             style={styles.submit.pressable}
             onPress={() => {
-              console.log(imageList);
+              console.log(notCheckedList);
             }}
           >
             <Text style={styles.submit.text}>Submit Images</Text>
@@ -254,6 +296,16 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     color: 'white',
+	backgroundColor: 'lightblue',
+	borderStyle: 'solid',
+	borderColor: 'white',
+	borderWidth: 4,
+	width: 385,
+	justifyContent: 'center',
+	alignItems: 'center',
+	textAlign: 'center',
+	fontFamily: 'Georgia',
+	fontSize: 25,
   },
   topView: {
     alignItems: 'left',
@@ -333,7 +385,7 @@ const styles = StyleSheet.create({
     minHeight: 200,
     margin: 7,
     backgroundColor: 'transparent',
-	borderStyle: 'dashed',
+	borderStyle: 'solid',
 	borderColor: 'white',
 	borderWidth: 3,
   },
