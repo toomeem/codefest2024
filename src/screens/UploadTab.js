@@ -82,9 +82,8 @@ const UploadTab = () => {
       quality: 1,
     });
     if (!result.canceled) {
-      notCheckedList.push({uri: String(result.assets[0].uri)});
-      setModalVisible(false);
       notCheckedList.push(result.assets[0]);
+      setModalVisible(false);
     }
   };
   const [modalVisible, setModalVisible] = useState(false);
