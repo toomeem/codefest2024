@@ -31,8 +31,8 @@ const MyTabs = () => {
         tabBarInactiveTintColor: 'white',
       }}
     >
-      <tab.Screen 
-        name="Upload" 
+      <tab.Screen
+        name="Upload"
         component={UploadTab}
         options={{
           tabBarIcon: ({focused}) => (
@@ -55,8 +55,8 @@ const MyTabs = () => {
         }}
       />
 
-      <tab.Screen 
-        name="Map" 
+      <tab.Screen
+        name="Map"
         component={MapTab}
         options={{
           tabBarIcon: ({focused}) => (
@@ -78,8 +78,8 @@ const MyTabs = () => {
           )
         }}
       />
-      <tab.Screen 
-        name="About Us" 
+      <tab.Screen
+        name="About Us"
         component={AboutTab}
         options={{
           tabBarIcon: ({focused}) => (
