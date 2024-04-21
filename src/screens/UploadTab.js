@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
-  View, Text, TouchableOpacity, Pressable, StyleSheet, Image, ScrollView, Modal, ImageBackground
+  View, Text, TouchableOpacity, Pressable, StyleSheet, Image, ScrollView, Modal, ImageBackground, Alert, Touchable, SafeAreaView
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera, CameraType } from 'expo-camera';
 
-const image = { uri: "https://media.rainpos.com/Robert_Kaufman_Fabrics/K001-1842.jpg" };
+const backgroundImage = { uri: "https://media.rainpos.com/Robert_Kaufman_Fabrics/K001-1842.jpg" };
 
 const notCheckedList = [
   {'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
@@ -15,7 +15,7 @@ const notCheckedList = [
   {'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
 ];
 
-const bioDegradibleList = [
+const biodegradableList = [
   {'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
   {'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
   {'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
@@ -23,7 +23,7 @@ const bioDegradibleList = [
   {'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
 ]
 
-const nonBioDegradibleList = [
+const nonBiodegradableList = [
 	{'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
 	{'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
 	{'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
@@ -33,11 +33,11 @@ const nonBioDegradibleList = [
 
 selectedImages = [];
 
-const PhotoView = props => {
+const PictureView = props => {
   const [selected, setSelected] = React.useState(false);
   return (
     <View>
-      <View style={selected ? styles.photoView.selected : styles.photoView.unselected}>
+      <View style={selected ? styles.pictureView.selected : styles.pictureView.unselected}>
         <TouchableOpacity
           onPress={()=> {
             setSelected(!selected);
@@ -47,7 +47,7 @@ const PhotoView = props => {
             else{
               selectedImages.push(props.src.uri);
             }
-        }}
+          }}
         >
           <Image
             style={styles.image}
@@ -62,10 +62,19 @@ const PhotoView = props => {
 
 const UploadTab = () => {
   const [type, setType] = useState(CameraType.back);
-  const [permission, requestPermission] = Camera.useCameraPermissions(null);
+  const [permission, requestPermission] = Camera.useCameraPermissions();
   const [openCamera, setOpenCamera] = useState(false);
+  const [picture, setPicture] = useState(null);
   function toggleCameraType() {
     setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
+  };
+  let cameraRef = useRef();
+  let takePicture = async () => {
+    let options = {quality: 0, scale: 1};
+    let newPicture = await cameraRef.current.takePictureAsync(options);
+    setOpenCamera(false);
+    setPicture(newPicture);
+    notCheckedList.push({uri: picture.uri});
   };
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -75,21 +84,22 @@ const UploadTab = () => {
     if (!result.canceled) {
       notCheckedList.push({uri: String(result.assets[0].uri)});
       setModalVisible(false);
+      notCheckedList.push(result.assets[0]);
     }
   };
   const [modalVisible, setModalVisible] = useState(false);
   return (
-      <ImageBackground source={image} style={styles.back}>
+  <ImageBackground source={backgroundImage} style={styles.back}>
     <ScrollView>
       <View style={styles.container}>
-        <View style={styles.topSpace} />
+        <View style={{height: 50}} />
         <View style={styles.titleView}>
           <Text style={styles.titleText}>Unsorted Material</Text>
         </View>
-        <View style={styles.photoContainer}>
+        <View style={styles.pictureContainer}>
           {notCheckedList.map((image, index) => {
             return (
-              <PhotoView
+              <PictureView
                 key={index}
                 src={image}
               />
@@ -97,12 +107,12 @@ const UploadTab = () => {
           })}
         </View>
 		<View style={styles.titleView}>
-          <Text style={styles.titleText}>Biodegradible Material</Text>
+          <Text style={styles.titleText}>Biodegradable</Text>
         </View>
-        <View style={styles.photoContainer}>
-          {bioDegradibleList.map((image, index) => {
+        <View style={styles.pictureContainer}>
+          {biodegradableList.map((image, index) => {
             return (
-              <PhotoView
+              <PictureView
                 key={index}
                 src={image}
               />
@@ -110,18 +120,19 @@ const UploadTab = () => {
           })}
         </View>
 		<View style={styles.titleView}>
-          <Text style={styles.titleText}>Non-Biodegradible Materia</Text>
+          <Text style={styles.titleText}>Non-Biodegradable</Text>
         </View>
-        <View style={styles.photoContainer}>
-          {nonBioDegradibleList.map((image, index) => {
+        <View style={styles.pictureContainer}>
+          {nonBiodegradableList.map((image, index) => {
             return (
-              <PhotoView
+              <PictureView
                 key={index}
                 src={image}
               />
             );
           })}
         </View>
+        <View style={{height: 80}} />
         <View style={styles.upload.view}>
           <TouchableOpacity
             style={styles.upload.pressable}
@@ -133,36 +144,48 @@ const UploadTab = () => {
           </TouchableOpacity>
         </View>
         <View style={styles.submit.view}>
-          <Pressable
+          <TouchableOpacity
             style={styles.submit.pressable}
             onPress={() => {
               console.log(notCheckedList);
             }}
           >
             <Text style={styles.submit.text}>Submit Images</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
-        {/* <Modal style={styles.modal}
-          {openCamera ?
+        {openCamera && permission.granted ?
+          <Modal
+            style={styles.cameraModal}
+            animationType="slide"
+            visible={openCamera}
+            transparent={true}
+            onRequestClose={() => setOpenCamera(false)}
+          >
             <View style={styles.cameraContainer}>
-              <Camera style={styles.camera} type={type}>
-                <View style={styles.cameraButtonContainer}>
-                  <TouchableOpacity style={styles.cameraButton}
+              <Camera style={styles.camera} type={type} ref={cameraRef}>
+                <View style={styles.cameraIconContainer}>
+                  <TouchableOpacity style={styles.cameraFlipButton}
                     onPress={() => toggleCameraType()}
                   >
-                    <Text style={styles.cameraText}>Flip Camera</Text>
+                    <Text style={styles.cameraFlipText}>Flip Camera</Text>
                   </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.takePicture}
+                    onPress={() => {
+                      takePicture();
+                    }}
+                  />
                 </View>
               </Camera>
-            </View> :
-          }
-          </View>
-          </Modal> */}
+            </View>
+          </Modal>
+          : null
+        }
         <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}>
           <View style={styles.centeredView}>
@@ -178,8 +201,19 @@ const UploadTab = () => {
                 >
                   <Text style={styles.selectImage.text}>Select an image</Text>
                 </TouchableOpacity>
+                <View style={styles.orView}>
+                  <Text style={styles.orText}>OR</Text>
+                </View>
                 <View style={styles.openCamera.view}>
-                  <TouchableOpacity style={styles.openCamera.touchable}>
+                  <TouchableOpacity
+                    style={styles.openCamera.touchable}
+                    onPress={() => {
+                      permission.granted ?
+                      setOpenCamera(true) :
+                      requestPermission();
+                      setModalVisible(false);
+                    }}
+                  >
                     <Text style={styles.openCamera.text}>Open Camera</Text>
                   </TouchableOpacity>
                 </View>
@@ -213,6 +247,24 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  takePicture: {
+    alignSelf: 'flex-end',
+    margin: 30,
+    backgroundColor: 'white',
+    borderRadius: 50,
+    width: 50,
+    height: 50,
+  },
+  orView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 10,
+  },
+  orText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'violet',
+  },
   container: {
     flexDirection: 'column',
     alignSelf: 'center',
@@ -228,7 +280,6 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       alignSelf: 'center',
       borderRadius: 10,
-      margin: 20,
       width: 150,
       height: 50,
       backgroundColor: 'lightblue',
@@ -252,7 +303,6 @@ const styles = StyleSheet.create({
       height: 50,
       marginLeft: 30,
       marginRight: 30,
-
       borderRadius: 10,
       alignItems: 'center',
       justifyContent: 'center',
@@ -271,41 +321,45 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
   },
-  cameraButtonContainer: {
+  cameraIconContainer: {
     flex: 1,
     flexDirection: 'row',
-    margin: 64,
-  },
-  cameraButton: {
-    flex: 1,
-    alignSelf: 'flex-end',
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  cameraText: {
+  cameraFlipButton: {
+    flex: 1,
+    position: 'absolute',
+    top: 60,
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 20,
+  },
+  cameraFlipText: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'black',
   },
   titleView: {
     marginTop: 20,
     height: 50,
     alignItems: 'center',
     justifyContent: 'top',
+    alignSelf: 'left',
   },
   titleText: {
     fontSize: 30,
     fontWeight: 'bold',
     color: 'white',
-	backgroundColor: 'lightblue',
-	borderStyle: 'solid',
-	borderColor: 'white',
-	borderWidth: 4,
-	width: 385,
-	justifyContent: 'center',
-	alignItems: 'center',
-	textAlign: 'center',
-	fontFamily: 'Georgia',
-	fontSize: 25,
+    backgroundColor: 'lightblue',
+    borderStyle: 'solid',
+    borderColor: 'white',
+    borderWidth: 4,
+    width: 370,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    fontFamily: 'Georgia',
   },
   topView: {
     alignItems: 'left',
@@ -321,14 +375,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     transform: [{ rotate: '45deg' }],
   },
-  modal: {
-    backgroundColor: 'red',
-    maxHeight: 100,
-    borderRadius: 10,
-    // alignSelf: 'center',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-  },
   submit : {
     view: {
       justifyContent: 'center',
@@ -338,13 +384,11 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       width: 150,
       height: 50,
-      top: '80%',
+      top: 10,
       right: 30,
       backgroundColor: 'lightblue',
     },
     pressable: {
-      // width: '100%',
-      // height: '100%',
       justifyContent: 'center',
       alignItems: 'center',
     },
@@ -362,13 +406,11 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       width: 150,
       height: 50,
-      top: "80%",
+      top: 10,
       left: 5,
       backgroundColor: 'lightblue',
     },
     pressable: {
-      width: 100,
-      height: 100,
       justifyContent: 'center',
       alignItems: 'center',
     },
@@ -377,19 +419,21 @@ const styles = StyleSheet.create({
       color: 'white',
     },
   },
-  photoContainer: {
+  pictureContainer: {
     justifyContent: 'left',
+    alignSelf: 'left',
+    margin: 10,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: '95%',
+    width: '90%',
     minHeight: 200,
     margin: 7,
     backgroundColor: 'lightblue',
-	borderStyle: 'solid',
-	borderColor: 'white',
-	borderWidth: 3,
+    borderStyle: 'solid',
+    borderColor: 'white',
+    borderWidth: 3,
   },
-  photoView: {
+  pictureView: {
     selected:{
       borderWidth: 2,
       borderColor: 'red',

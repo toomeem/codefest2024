@@ -45,10 +45,11 @@ const StoryList = () => {
       <Text style={styles.storyListText}>Development Team</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {stories.map(story => (
+          story.id !== 7 ?
           <View style={styles.storyContainer} key={story.id}>
             <Image style={styles.storyImage} source={{ uri: story.image }} />
             <Text style={styles.storyName}>{story.name}</Text>
-          </View>
+          </View> : null
         ))}
       </ScrollView>
     </View>
