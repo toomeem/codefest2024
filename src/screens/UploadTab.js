@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import {
-	View, Text, TouchableOpacity, Pressable, StyleSheet, Image, ScrollView, Modal
+	View, Text, TouchableOpacity, Pressable, StyleSheet, Image, ScrollView, Modal, ImageBackground
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+
+const image = { uri: "https://media.rainpos.com/Robert_Kaufman_Fabrics/K001-1842.jpg" };
 
 const imageList = [
 	{'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
@@ -16,6 +18,7 @@ const PhotoView = props => {
 	const [selected, setSelected] = React.useState(false);
 	return (
 		<View>
+			
 			<View style={selected ? styles.photoView.selected : styles.photoView.unselected}>
 				<TouchableOpacity
 					onPress={()=> {
@@ -34,6 +37,7 @@ const PhotoView = props => {
 					/>
 				</TouchableOpacity>
 			</View>
+			
 		</View>
 	);
 }
@@ -53,6 +57,7 @@ const UploadTab = () => {
 	};
 	const [modalVisible, setModalVisible] = useState(false);
 	return (
+			<ImageBackground source={image} style={styles.back}>
 		<ScrollView>
 			<View style={styles.container}>
 				<View style={styles.topSpace} />
@@ -111,6 +116,7 @@ const UploadTab = () => {
 		</View>
 		</View>
 		</ScrollView>
+		</ImageBackground>
 	);
 }
 
@@ -129,6 +135,7 @@ const styles = StyleSheet.create({
 	titleText: {
 		fontSize: 30,
 		fontWeight: 'bold',
+		color: 'white',
 	},
 	selectImage: {
 		width: 200,
@@ -194,6 +201,7 @@ const styles = StyleSheet.create({
 		},
 		text: {
 			fontSize: 20,
+			color: 'white',
 		},
 	},
 	upload: {
@@ -218,6 +226,7 @@ const styles = StyleSheet.create({
 		},
 		text: {
 			fontSize: 20,
+			color: 'white',
 		},
 	},
 	photoContainer: {
@@ -227,8 +236,8 @@ const styles = StyleSheet.create({
 		flexWrap: 'wrap',
 		width: '90%',
 		minHeight: 260,
-		backgroundColor: 'lightgray',
 		margin: 10,
+		backgroundColor: 'lightgray',
 	},
 	photoView: {
 		selected:{
@@ -246,6 +255,10 @@ const styles = StyleSheet.create({
 		width: 100,
 		height: 100,
 		// margin: 10,
+	},
+	back: {
+		height: 1000,
+		width: 420,
 	}
 });
 

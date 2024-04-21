@@ -54,6 +54,7 @@ const MyTabs = () => {
           )
         }}
       />
+
       <tab.Screen 
         name="Map" 
         component={MapTab}
