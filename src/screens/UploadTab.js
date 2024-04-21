@@ -1,11 +1,15 @@
 import React, { useState, useRef } from 'react';
 import {
-  View, Text, TouchableOpacity, Pressable, StyleSheet, Image, ScrollView, Modal, ImageBackground, Alert, Touchable, SafeAreaView
+  View, Text, TouchableOpacity, Pressable, StyleSheet, Image, ScrollView, Modal, ImageBackground, RefreshControl, FlatList
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera, CameraType } from 'expo-camera';
+import uploadImage from '../functions/request';
 
-const backgroundImage = { uri: "https://media.rainpos.com/Robert_Kaufman_Fabrics/K001-1842.jpg" };
+
+const backgroundImage = {
+  uri: "https://media.rainpos.com/Robert_Kaufman_Fabrics/K001-1842.jpg"
+};
 
 const notCheckedList = [
   {'uri': 'https://fathead.com/cdn/shop/products/dfs7s23a2jhda82q6bch.jpg?v=1660809139&width=1946'},
@@ -37,25 +41,26 @@ const PictureView = props => {
   const [selected, setSelected] = React.useState(false);
   return (
     <View>
+      {props.src.uri != undefined ?
       <View style={selected ? styles.pictureView.selected : styles.pictureView.unselected}>
         <TouchableOpacity
           onPress={()=> {
             setSelected(!selected);
             if(selected){
-              selectedImages.pop(props.src.uri);
+              selectedImages.pop(props.src);
             }
             else{
-              selectedImages.push(props.src.uri);
+              selectedImages.push(props.src);
             }
           }}
         >
           <Image
             style={styles.image}
-            source={props.src}
+            source={{uri: props.src.uri}}
           />
         </TouchableOpacity>
       </View>
-
+      : <Text>No Images</Text>}
     </View>
   );
 }
@@ -87,9 +92,16 @@ const UploadTab = () => {
     }
   };
   const [modalVisible, setModalVisible] = useState(false);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 3000);
+  }, []);
   return (
   <ImageBackground source={backgroundImage} style={styles.back}>
-    <ScrollView>
+    <ScrollView refreshControl={<RefreshControl enabled={true} refreshing={refreshing} refresh={onRefresh}/>}>
       <View style={styles.container}>
         <View style={{height: 50}} />
         <View style={styles.titleView}>
@@ -155,8 +167,12 @@ const UploadTab = () => {
         <View style={styles.submit.view}>
           <TouchableOpacity
             style={styles.submit.pressable}
-            onPress={() => {
-              console.log(notCheckedList);
+            onPress={async() => {
+              while(selectedImages.length > 0){
+                console.log(selectedImages[0]);
+                uploadImage(selectedImages[0]) ? biodegradableList.push(selectedImages[0]) : nonBiodegradableList.push(selectedImages[0]);
+                selectedImages.shift();
+              }
             }}
           >
             <Text style={styles.submit.text}>Submit Images</Text>
@@ -241,6 +257,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  refresh: {
+    height: 10
+  },
+  empty: {
+    height: 20
   },
   modalView: {
     flexDirection: 'column',
