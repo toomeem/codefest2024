@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Alert, Linking } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
+import * as Location from 'expo-location';
 // import Geolocation from 'react-native-geolocation-service';
-// import MapViewDirections from 'react-native-maps-directions';
+import MapViewDirections from 'react-native-maps-directions';
 
-const apiKey = 'process.env.GAIzaSyCJ1p61DQHVPq7fQV5asUr_wPz86_gKOhM';
+const apiKey = 'process.env.AIzaSyDts7XHh7g73Bzc9H4RQx_sNihfH4NnPw4';
 
 const MapTab = () => {
   const [selectedMarker, setSelectedMarker] = useState(null);
@@ -60,31 +61,60 @@ const MapTab = () => {
   const handleMarkerPress = (marker) => {
     setSelectedMarker(marker);
   }
-
-  const getCurrentLocation = () => {
-    // Geolocation.getCurrentPosition(
-    //   position => {
-    //     setCurrentLocation({
-    //       latitude: position.coords.latitude,
-    //       longitude: position.coords.longitude,
-    //     });
-    //   },
-    //   error => Alert.alert("Error", error.message),
-    //   { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-    // );
+  const userLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission denied', 'Permission to access location was denied');
+    } else {
+      let location = await Location.getCurrentPositionAsync({ enableHighAccuracy: true });
+      setCurrentLocation({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+      setMapRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
+    }
   };
 
+  // const getCurrentLocation = () => {
+  //   Geolocation.getCurrentPosition(
+  //     position => {
+  //       setCurrentLocation({
+  //         latitude: position.coords.latitude,
+  //         longitude: position.coords.longitude,
+  //       });
+  //     },
+  //     error => Alert.alert("Error", error.message),
+  //     { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+  //   );
+  // };
+
   useEffect(()=>{
-    getCurrentLocation();
+    userLocation();// getCurrentLocation();
   }, [])
 
-  // const navigateToMarker = () => {
-  //   if (selectedMarker) {
-  //     const { coordinate, title } = selectedMarker;
-  //     const url = `https://www.google.com/maps/dir/?api=1&destination=${coordinate.latitude},${coordinate.longitude}&travelmode=driving`;
-  //     Linking.openURL(url);
-  //   }
-  // }
+  const navigateToMarker = () => {
+    if (selectedMarker) {
+      const { coordinate } = selectedMarker;
+      // Check if currentLocation is available
+      if (currentLocation) {
+        // Use MapViewDirections to display directions
+        <MapViewDirections
+          origin={currentLocation}
+          destination={coordinate}
+          apikey={'AIzaSyDts7XHh7g73Bzc9H4RQx_sNihfH4NnPw4'}
+          strokeWidth={3}
+          strokeColor="blue"
+        />
+      } else {
+        Alert.alert("Error", "Location permission not granted or unavailable.");
+      }
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -94,11 +124,11 @@ const MapTab = () => {
         initialRegion={{
           latitude: 39.997090,
           longitude: -75.204790,
-          latitudeDelta: 90,
-          longitudeDelta: 180,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
         }}
         showsUserLocation={true}
-        // apiKey={apiKey}
+        apiKey={apiKey}
       >
         {markers.map(marker => (
           <Marker
@@ -108,40 +138,51 @@ const MapTab = () => {
             onPress={() => handleMarkerPress(marker)}
           >
             <Callout>
-                <Text>{marker.title}</Text>
+              <Text>{marker.title}</Text>
             </Callout>
           </Marker>
         ))}
+        {/* Conditionally render MapViewDirections based on selectedMarker and currentLocation */}
+        {selectedMarker && currentLocation && (
+          <MapViewDirections
+            origin={currentLocation}
+            destination={selectedMarker.coordinate}
+            apikey={apiKey}
+            strokeWidth={3}
+            strokeColor="blue"
+          />
+        )}
       </MapView>
-      {selectedMarker &&
-      <TouchableOpacity style={styles.buttonContainer} onPress={() => {}}>
-        <Text style={styles.buttonText}>Navigate</Text>
-      </TouchableOpacity>}
+      {selectedMarker && (
+        <TouchableOpacity style={styles.buttonContainer} onPress={navigateToMarker}>
+          <Text style={styles.buttonText}>Navigate</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    map: {
-      flex: 1,
-    },
-    buttonContainer: {
-      position: 'absolute',
-      top: '1%',
-      right: '2%',
-      backgroundColor: 'black',
-      borderRadius:5,
-      color: 'white',
-      zIndex: 10000,
-      opacity: 0.7
-    },
-    buttonText: {
-      padding: 10,
-      color:'white',
-      fontSize: 15,
+  container: {
+    flex: 1,
+  },
+  map: {
+    flex: 1,
+  },
+  buttonContainer: {
+    position: 'absolute',
+    top: '1%',
+    right: '2%',
+    backgroundColor: 'black',
+    borderRadius: 5,
+    color: 'white',
+    zIndex: 10000,
+    opacity: 0.7
+  },
+  buttonText: {
+    padding: 10,
+    color: 'white',
+    fontSize: 15,
   },
 });
 
