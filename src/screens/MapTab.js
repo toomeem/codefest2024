@@ -5,7 +5,7 @@ import * as Location from 'expo-location';
 // import Geolocation from 'react-native-geolocation-service';
 import MapViewDirections from 'react-native-maps-directions';
 
-const apiKey = 'process.env.AIzaSyDts7XHh7g73Bzc9H4RQx_sNihfH4NnPw4';
+const apiKey = process.env.API_KEY
 
 const MapTab = () => {
   const [selectedMarker, setSelectedMarker] = useState(null);
