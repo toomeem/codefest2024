@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  font-family: 'Poppins', sans-serif;
+  background-color: black;
+  line-height: 1.6;
+  color: white;
+}
+
+/* HEADER STYLES */
+header {
+  display: flex;
+  justify-content: space-between; /* Updated to separate logo and navigation */
+  align-items: center;
+  padding: 10px 20px; /* Adjust padding as needed */
+  box-shadow: 0 0 5px gray;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: black;
+  color: #008000;
+  z-index: 10;
+}
+
+body {
+  padding-top: 90px; /* Height of the header */
+  overflow-y: scroll; /* Ensures scrollbar is always shown to prevent layout shifts */
+}
+
+/* LOGO STYLES */
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.website-name {
+  font-size: 2rem;
+  margin-top: -5px;
+  margin-left: 10px; /* Adjust spacing between logo and text */
+  line-height: 1;
+}
+
+
+/* NAVIGATION STYLES */
+nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links li {
+  font-size: 1rem;
+}
+
+/* LINK STYLES */
+a {
+  color: #008000;
+  text-decoration: none;
+  padding: 0.25rem;
+  transition: color 300ms ease, text-shadow 300ms ease;
+}
+
+/* Hover State */
+a:hover {
+  color: greenyellow !important; /* Color change on hover */
+  text-decoration: underline; /* Underline on hover for visual cue */
+  text-decoration-color: currentColor; /* Use current text color for underline */
+  text-decoration-thickness: 2px; /* Makes the underline thicker */
+  text-underline-offset: 3px; /* Distance between text and underline */
+}
+
+/* Focus State */
+a:focus {
+  color: #008000; /* Focus state color, often a contrast color */
+  text-shadow: 0 0 5px #008000; /* A glow effect for better accessibility */
+}
+
+/* Active State */
+a:active {
+  color: greenyellow; /* Color for the moment the link is clicked */
+  text-decoration: none; /* Option to remove underline on click */
+}
+
+/* Visited State */
+a:visited {
+  color: #008000; /* A distinct color for visited links */
+  text-decoration: white;
+}
+
+/* BUTTON STYLES */
+.btn {
+  padding: 0.75rem 2rem;
+  border-radius: 25px;
+  font-weight: 500;
+  background-color: black;
+  color: darkgreen;
+  border: 2px solid #353535;
+  cursor: pointer;
+  transition: all 300ms ease;
+}
+
+.btn:hover {
+  background-color: #000000;
+  color: greenyellow;
+  border-color: greenyellow;
+}
+
+/* SECTIONS STYLES */
+section {
+  padding: 5vh 10vw;
+}
+
+/* TYPOGRAPHY ENHANCEMENTS */
+h1, h2, h3, h4, h5, h6 {
+  color: #008000;
+  margin-top: 1em;
+  margin-bottom: 0.1em;
+}
+
+.title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin: 2vh 0;
+}
+
+/* RESPONSIVE IMAGES */
+img {
+  max-width: 80%;
+  height: auto;
+}
+
+.person img {
+  display: block; /* Makes the image a block-level element to allow centering */
+  margin: 0 auto; /* Centers the image horizontally */
+  width: 150px; /* Sets a fixed width */
+  height: 150px; /* Sets a fixed height to maintain aspect ratio */
+  border-radius: 50%; /* Makes the image circular */
+  object-fit: cover; /* Ensures the image covers the area without losing aspect ratio */
+}
+
+/* Specific styles for displayImage */
+#displayImage {
+  max-width: 100%;
+  max-height: 400px;
+  display: block;
+  margin: 20px 0 20px 20px;;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+}
+
+/* FOOTER STYLES */
+footer {
+  padding: 4vh 0;
+  text-align: center;
+  background-color: black;
+  box-shadow: 0 0 5px gray;
+}
+
+footer p {
+  color: white;
+}
+
+/* Ensure you test these styles across various devices to maintain responsiveness and adjust any values according to your design requirements. */
