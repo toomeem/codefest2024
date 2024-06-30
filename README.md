@@ -23,6 +23,3 @@ We would like to express our gratitude to Philly Codefest 2024 for providing us 
 
 ## Future Work
 We are continuously working on improving the model's accuracy and the website's user experience.
-
-## License
-This project is licensed under the MIT License - see the LICENSE.md file for details.
